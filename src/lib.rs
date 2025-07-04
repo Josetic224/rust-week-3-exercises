@@ -211,9 +211,12 @@ impl TransactionInput {
             return Err(BitcoinError::InsufficientBytes);
         }
         let mut seq_bytes = [0u8; 4];
-        seq_bytes.copy_from_slice(&bytes[offset..offset+4]);
+        seq_bytes.copy_from_slice(&bytes[offset..offset + 4]);
         let sequence = u32::from_le_bytes(seq_bytes);
-        Ok((TransactionInput::new(outpoint, script, sequence), offset + 4))
+        Ok((
+            TransactionInput::new(outpoint, script, sequence),
+            offset + 4,
+        ))
     }
 }
 
@@ -226,7 +229,11 @@ pub struct BitcoinTransaction {
 
 impl BitcoinTransaction {
     pub fn new(version: u32, inputs: Vec<TransactionInput>, lock_time: u32) -> Self {
-        BitcoinTransaction { version, inputs, lock_time }
+        BitcoinTransaction {
+            version,
+            inputs,
+            lock_time,
+        }
     }
 
     pub fn to_bytes(&self) -> Vec<u8> {
@@ -258,9 +265,12 @@ impl BitcoinTransaction {
             return Err(BitcoinError::InsufficientBytes);
         }
         let mut lock_time_bytes = [0u8; 4];
-        lock_time_bytes.copy_from_slice(&bytes[offset..offset+4]);
+        lock_time_bytes.copy_from_slice(&bytes[offset..offset + 4]);
         let lock_time = u32::from_le_bytes(lock_time_bytes);
-        Ok((BitcoinTransaction::new(version, inputs, lock_time), offset + 4))
+        Ok((
+            BitcoinTransaction::new(version, inputs, lock_time),
+            offset + 4,
+        ))
     }
 }
 
