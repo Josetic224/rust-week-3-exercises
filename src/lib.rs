@@ -79,7 +79,6 @@ impl CompactSize {
                 }
                 Ok((CompactSize { value: v }, 9))
             }
-            _ => Err(BitcoinError::InvalidFormat),
         }
     }
 }
